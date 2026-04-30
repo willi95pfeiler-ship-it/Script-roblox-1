@@ -1,16 +1,16 @@
-local player = game.Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
 
--- Attendre que tout soit chargé
-wait(1)
+local player = Players.LocalPlayer
 
-for _, v in pairs(char:GetDescendants()) do
-    if v:IsA("Motor6D") then
-        -- Modifier la position des joints
-        v.C0 = v.C0 * CFrame.Angles(
-            math.rad(math.random(-30,30)),
-            math.rad(math.random(-30,30)),
-            math.rad(math.random(-30,30))
-        )
-    end
-end
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	if input.KeyCode == Enum.KeyCode.F then
+		local character = player.Character or player.CharacterAdded:Wait()
+		local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+		
+		-- Téléportation
+		humanoidRootPart.CFrame = CFrame.new(4, 1, -4)
+	end
+end)
